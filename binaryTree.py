@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 class BinaryTreeNode:
     def __init__(self, value, parent=None):
         self.value = value
@@ -87,16 +89,18 @@ class BinaryTree:
                     node.leftPointer.parent = node.parent
                     node.parent.leftPointer = node.leftPointer
             else:
+                minNode = deepcopy(self.findMin(node.rightPointer))
+                minNode.parent = node.parent
+                node.leftPointer.parent = minNode
+                minNode.leftPointer = node.leftPointer
+                node.rightPointer.parent = minNode
+                minNode.rightPointer = node.rightPointer
                 if node is node.parent.rightPointer:
-                    node.parent.rightPointer.parent = node.parent
-                    node.parent.rightPointer = self.findMin(node.rightPointer)
-                    node.leftPointer.parent = node.parent.rightPointer
-                    node.parent.rightPointer.leftPointer = node.leftPointer
-                    self.remove(node.rightPointer.value, node.rightPointer)
+                    node.parent.rightPointer = minNode
+                    self.remove(minNode.value, minNode.rightPointer)
                 else:
-                    node.parent.leftPointer.parent = node.parent
-                    node.parent.leftPointer = self.findMin(node.rightPointer)
-                    self.remove(node.rightPointer.value, node.rightPointer)
+                    node.parent.leftPointer = minNode
+                    self.remove(minNode.value, minNode.rightPointer)
 
     def inOrderTraversal(self, node:BinaryTreeNode) -> None:
         if node is not None:
