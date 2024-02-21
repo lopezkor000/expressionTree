@@ -105,12 +105,13 @@ class BinaryTree:
     def inOrderTraversal(self, node:BinaryTreeNode) -> None:
         if node is not None:
             self.inOrderTraversal(node.leftPointer)
-            print(f"node: {node.value} | rp: {node.rightPointer.value if node.rightPointer else None} {'   ' if node.rightPointer else ''}| lp: {node.leftPointer.value if node.leftPointer else None} {'   ' if node.leftPointer else ''}| parent: {node.parent.value if node.parent else None}")
+            # print(f"node: {node.value} | rp: {node.rightPointer.value if node.rightPointer else None} {'   ' if node.rightPointer else ''}| lp: {node.leftPointer.value if node.leftPointer else None} {'   ' if node.leftPointer else ''}| parent: {node.parent.value if node.parent else None}")
+            print(node.value)
             self.inOrderTraversal(node.rightPointer)
 
     def preOrderTraversal(self, node:BinaryTreeNode) -> None:
         if node is not None:
-            print(node.value, node)
+            print(node.value)
             self.preOrderTraversal(node.leftPointer)
             self.preOrderTraversal(node.rightPointer)
 
@@ -118,7 +119,7 @@ class BinaryTree:
         if node is not None:
             self.postOrderTraversal(node.leftPointer)
             self.postOrderTraversal(node.rightPointer)
-            print(node.value, node)
+            print(node.value)
 
     def treeHeight(self, node:BinaryTreeNode) -> int:
         if node is None:
