@@ -5,8 +5,21 @@ nodes = deque()
 operators = deque()
 expressionTree = BinaryTree()
 
-string_input = "(1+2*3)"
-test = "(1+2*3)+((4*5+6)*7)"
+string_input = "(1+2*3)+((4*5+6)*7)"
+test = "(1+2*3)"
+
+
+def inOrderCalulation(node:BinaryTreeNode):
+    if node.value == "+":
+        return inOrderCalulation(node.leftPointer) + inOrderCalulation(node.rightPointer)
+    elif node.value == "-":
+        return inOrderCalulation(node.leftPointer) - inOrderCalulation(node.rightPointer)
+    elif node.value == "*":
+        return inOrderCalulation(node.leftPointer) * inOrderCalulation(node.rightPointer)
+    elif node.value == "/":
+        return inOrderCalulation(node.leftPointer) / inOrderCalulation(node.rightPointer)
+    else:
+        return node.value
 
 
 def run():
@@ -87,25 +100,19 @@ def run():
         else:
             print(f"Can't recognize character [{i+1}]")
             exit()
-        # print(operators)
-        # for node in nodes:
-        #     try:
-        #         print(node.value, node.leftPointer.value, node.rightPointer.value)
-        #     except:
-        #         print(node.value, node.leftPointer, node.rightPointer)
+        print(operators)
+    if len(operators) != 0 and len(nodes) < 2:
+        print(f"ERROR: Missing operands for {operators[-1]} operator")
+        return
     if len(operators) != 0:
-        print("ERROR: Missing operands for remainding operators")
-    else:
-        expressionTree.root = nodes.pop()
-        # print(expressionTree.root.value)
-        expressionTree.inOrderTraversal(expressionTree.root)
-
+        operator = BinaryTreeNode(operators.pop())
+        operator.rightPointer = nodes.pop()
+        operator.leftPointer = nodes.pop()
+        nodes.append(operator)
+    expressionTree.root = nodes.pop()
+    # expressionTree.inOrderTraversal(expressionTree.root)
+    print('\n', f'answer: {inOrderCalulation(expressionTree.root)}', '\n')
+        
 
 if __name__ == "__main__":
     run()
-    # print(operators)
-    # for node in nodes:
-    #     try:
-    #         print(node.value, node.leftPointer.value, node.rightPointer.value)
-    #     except:
-    #         print(node.value, node.leftPointer, node.rightPointer)
